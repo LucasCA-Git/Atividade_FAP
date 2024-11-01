@@ -43,7 +43,16 @@ Um sistema simples de gerenciamento de pedidos, que permite o cadastro de client
 
 ## Arquivo .env
 
-O arquivo `.env` é um arquivo de configuração que permite definir variáveis de ambiente para sua aplicação Node.js. É uma prática comum usar um arquivo `.env` para armazenar informações sensíveis, como credenciais de banco de dados, chaves de API e outras configurações que não devem ser expostas no código-fonte. Aqui estão algumas razões para usar um arquivo `.env`:
+## Autenticação
+
+A autenticação no sistema é realizada através de tokens JWT (JSON Web Token). Após o usuário realizar o login com credenciais válidas, a aplicação gera um token de acesso que deve ser enviado em todas as requisições subsequentes que exigem autenticação.
+
+### Configuração do JWT
+
+1. **Variável de ambiente `JWT_SECRET`**: Defina uma variável de ambiente `JWT_SECRET` no arquivo `.env` com uma chave secreta para assinar o token JWT. Esta chave deve ser única e segura.
+
+2. **Expiração do Token**: O token gerado expira em 1 hora. Esse tempo pode ser ajustado conforme necessário.
+
 
 - **Segurança**: Mantenha credenciais e informações sensíveis fora do código. Assim, você pode evitar que esses dados sejam acidentalmente expostos em um repositório público.
 
