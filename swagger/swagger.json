@@ -1,0 +1,867 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Controle de Pedidos",
+    "version": "1.0.0",
+    "description": "API para gerenciar usuários, produtos, pedidos e clientes"
+  },
+  "paths": {
+    "/usuarios": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Lista todos os usuários",
+        "responses": {
+          "200": {
+            "description": "Lista de usuários",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Usuario"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar usuários"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Cria um novo usuário",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "senha": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "login",
+                  "senha"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Usuário criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Usuario"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro ao criar usuário"
+            }
+          }
+        }
+      }
+    },
+    "/usuarios/{id}": {
+      "get": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Obtém um usuário por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuário encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Usuario"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao obter usuário"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Atualiza um usuário por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "login": {
+                    "type": "string"
+                  },
+                  "senha": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "login",
+                  "senha"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Usuário atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Usuario"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Usuário não encontrado"
+            },
+            "500": {
+              "description": "Erro ao atualizar usuário"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Usuários"
+        ],
+        "summary": "Deleta um usuário por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Usuário deletado com sucesso"
+          },
+          "404": {
+            "description": "Usuário não encontrado"
+          },
+          "500": {
+            "description": "Erro ao deletar usuário"
+          }
+        }
+      }
+    },
+    "/produtos": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Lista todos os produtos",
+        "responses": {
+          "200": {
+            "description": "Lista de produtos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Produto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar produtos"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Cria um novo produto",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "categoria"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Produto criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Produto"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro ao criar produto"
+            }
+          }
+        }
+      }
+    },
+    "/produtos/{id}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Obtém um produto por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Produto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          },
+          "500": {
+            "description": "Erro ao obter produto"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Atualiza um produto por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "categoria"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Produto atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Produto"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Produto não encontrado"
+            },
+            "500": {
+              "description": "Erro ao atualizar produto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Deleta um produto por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Produto deletado com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          },
+          "500": {
+            "description": "Erro ao deletar produto"
+          }
+        }
+      }
+    },
+    "/pedidos": {
+      "get": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Lista todos os pedidos",
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Pedido"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar pedidos"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Cria um novo pedido",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cliente_id": {
+                    "type": "integer"
+                  },
+                  "data": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "cliente_id",
+                  "data",
+                  "status"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Pedido criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Pedido"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro ao criar pedido"
+            }
+          }
+        }
+      }
+    },
+    "/pedidos/{id}": {
+      "get": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Obtém um pedido por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Pedido"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro ao obter pedido"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Atualiza um pedido por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cliente_id": {
+                    "type": "integer"
+                  },
+                  "data": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "cliente_id",
+                  "data",
+                  "status"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Pedido atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Pedido"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Pedido não encontrado"
+            },
+            "500": {
+              "description": "Erro ao atualizar pedido"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Deleta um pedido por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Pedido deletado com sucesso"
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro ao deletar pedido"
+          }
+        }
+      }
+    },
+    "/clientes": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Lista todos os clientes",
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Cliente"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar clientes"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Cria um novo cliente",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "telefone": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "email"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": "Cliente criado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Cliente"
+                  }
+                }
+              }
+            },
+            "500": {
+              "description": "Erro ao criar cliente"
+            }
+          }
+        }
+      }
+    },
+    "/clientes/{id}": {
+      "get": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Obtém um cliente por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/definitions/Cliente"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro ao obter cliente"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Atualiza um cliente por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "telefone": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "nome",
+                  "email"
+                ]
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Cliente atualizado com sucesso",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/definitions/Cliente"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "Cliente não encontrado"
+            },
+            "500": {
+              "description": "Erro ao atualizar cliente"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Clientes"
+        ],
+        "summary": "Deleta um cliente por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cliente deletado com sucesso"
+          },
+          "404": {
+            "description": "Cliente não encontrado"
+          },
+          "500": {
+            "description": "Erro ao deletar cliente"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Usuario": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "login": {
+          "type": "string"
+        },
+        "senha": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "login",
+        "senha"
+      ]
+    },
+    "Produto": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "categoria": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "nome",
+        "categoria"
+      ]
+    },
+    "Pedido": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "cliente_id": {
+          "type": "integer"
+        },
+        "data": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "cliente_id",
+        "data",
+        "status"
+      ]
+    },
+    "Cliente": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "nome": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "telefone": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "nome",
+        "email"
+      ]
+    }
+  }
+}
