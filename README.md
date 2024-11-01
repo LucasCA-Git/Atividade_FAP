@@ -20,11 +20,41 @@ Um sistema simples de gerenciamento de pedidos, que permite o cadastro de client
 
 ## Tecnologias
 
-- TypeScript
-- Node.js
-- Express
-- TypeORM
-- MySQL (ou outro banco de dados SQL)
+- **Node.js**: Ambiente de execução JavaScript.
+- **Express**: Framework para construção de APIs.
+- **Sequelize**: ORM para facilitar a interação com o banco de dados.
+- **MySQL**: Sistema de gerenciamento de banco de dados.
+
+# Sequelize e Configuração do Arquivo .env
+
+## Sequelize
+
+**Sequelize** é um ORM (Object-Relational Mapping) para Node.js que facilita a interação com bancos de dados relacionais, como MySQL, PostgreSQL, SQLite e MSSQL. Ele permite que você trabalhe com dados de forma mais intuitiva, utilizando objetos JavaScript em vez de escrever consultas SQL diretamente. Aqui estão algumas características e benefícios do Sequelize:
+
+- **Modelagem de Dados**: Com Sequelize, você pode definir modelos que representam tabelas no banco de dados, incluindo suas colunas, tipos de dados e relacionamentos (como associações entre tabelas).
+  
+- **Consultas Simples**: Você pode realizar operações de CRUD (Create, Read, Update, Delete) de forma simplificada. Por exemplo, você pode criar um novo registro chamando um método de instância em um modelo em vez de escrever uma consulta SQL.
+
+- **Sincronização Automática**: O Sequelize permite sincronizar automaticamente seus modelos com o banco de dados, criando ou atualizando as tabelas conforme necessário.
+
+- **Suporte a Transações**: O Sequelize oferece suporte a transações, permitindo que você execute várias operações de banco de dados como uma única unidade de trabalho, garantindo integridade dos dados.
+
+- **Validações e Hooks**: Você pode adicionar validações para os dados antes de serem salvos no banco de dados e usar hooks para executar ações em momentos específicos do ciclo de vida do modelo (como antes ou depois de criar um registro).
+
+## Arquivo .env
+
+O arquivo `.env` é um arquivo de configuração que permite definir variáveis de ambiente para sua aplicação Node.js. É uma prática comum usar um arquivo `.env` para armazenar informações sensíveis, como credenciais de banco de dados, chaves de API e outras configurações que não devem ser expostas no código-fonte. Aqui estão algumas razões para usar um arquivo `.env`:
+
+- **Segurança**: Mantenha credenciais e informações sensíveis fora do código. Assim, você pode evitar que esses dados sejam acidentalmente expostos em um repositório público.
+
+- **Facilidade de Configuração**: Você pode facilmente alterar as configurações sem modificar o código-fonte. Isso é especialmente útil em diferentes ambientes (desenvolvimento, teste, produção).
+
+- **Convenção de Nomenclatura**: O uso de variáveis de ambiente torna claro quais valores podem ser configurados externamente.
+
+### Exemplo de Configuração do .env
+
+Aqui está um exemplo de como seu arquivo `.env` pode ser estruturado:
+
 
 ## Instalação
 
