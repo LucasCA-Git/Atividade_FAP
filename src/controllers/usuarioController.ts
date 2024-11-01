@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import { UsuarioService } from '../services/usuarioService';
+import jwt from 'jsonwebtoken';
 
 export class UsuarioController {
-    // Método para criar um usuário
-    static async criarUsuario(req: Request, res: Response) {
+    static async criarUsuario(req: Request, res: Response): Promise<void> {
         try {
             const { login, senha } = req.body;
             const usuario = await UsuarioService.criarUsuario(login, senha);
@@ -13,13 +13,24 @@ export class UsuarioController {
         }
     }
 
-    // Método para autenticar um usuário
-    static async autenticarUsuario(req: Request, res: Response) {
+    static async autenticarUsuario(req: Request, res: Response): Promise<void> {
         try {
             const { login, senha } = req.body;
-            const autenticado = await UsuarioService.autenticarUsuario(login, senha);
-            if (autenticado) {
-                res.status(200).json({ message: 'Autenticado com sucesso!' });
+            const usuario = await UsuarioService.autenticarUsuario(login, senha);
+
+            if (usuario) {
+                const jwtSecret = process.env.JWT_SECRET;
+                if (!jwtSecret) {
+                    res.status(500).json({ error: 'JWT_SECRET não está definido no .env' });
+                    return; // Interrompe a execução se a chave não estiver definida
+                }
+
+                const acessToken = jwt.sign(
+                    { usuario_id: usuario.usuario_id, usuario_login: usuario.usuario_login },
+                    jwtSecret,
+                    { expiresIn: '1h' }
+                );
+                res.status(200).json({ acessToken });
             } else {
                 res.status(401).json({ error: 'Credenciais inválidas.' });
             }
@@ -28,8 +39,7 @@ export class UsuarioController {
         }
     }
 
-    // Método para listar usuários
-    static async listarUsuarios(req: Request, res: Response) {
+    static async listarUsuarios(req: Request, res: Response): Promise<void> {
         try {
             const usuarios = await UsuarioService.listarUsuarios();
             res.json(usuarios);
@@ -38,8 +48,7 @@ export class UsuarioController {
         }
     }
 
-    // Método para buscar um usuário por ID
-    static async buscarUsuarioPorId(req: Request, res: Response) {
+    static async buscarUsuarioPorId(req: Request, res: Response): Promise<void> {
         try {
             const usuarioId = Number(req.params.id);
             const usuario = await UsuarioService.buscarUsuarioPorId(usuarioId);
@@ -53,8 +62,7 @@ export class UsuarioController {
         }
     }
 
-    // Método para atualizar um usuário
-    static async atualizarUsuario(req: Request, res: Response) {
+    static async atualizarUsuario(req: Request, res: Response): Promise<void> {
         try {
             const usuarioId = Number(req.params.id);
             const { login, senha } = req.body;
@@ -69,8 +77,7 @@ export class UsuarioController {
         }
     }
 
-    // Método para deletar um usuário
-    static async deletarUsuario(req: Request, res: Response) {
+    static async deletarUsuario(req: Request, res: Response): Promise<void> {
         try {
             const usuarioId = Number(req.params.id);
             const usuarioDeletado = await UsuarioService.deletarUsuario(usuarioId);
