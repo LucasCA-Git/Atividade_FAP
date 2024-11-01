@@ -41,8 +41,6 @@ Um sistema simples de gerenciamento de pedidos, que permite o cadastro de client
 
 - **Validações e Hooks**: Você pode adicionar validações para os dados antes de serem salvos no banco de dados e usar hooks para executar ações em momentos específicos do ciclo de vida do modelo (como antes ou depois de criar um registro).
 
-## Arquivo .env
-
 ## Autenticação
 
 A autenticação no sistema é realizada através de tokens JWT (JSON Web Token). Após o usuário realizar o login com credenciais válidas, a aplicação gera um token de acesso que deve ser enviado em todas as requisições subsequentes que exigem autenticação.
