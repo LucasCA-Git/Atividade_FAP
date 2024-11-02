@@ -8,11 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsuarioController = void 0;
 const usuarioService_1 = require("../services/usuarioService");
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class UsuarioController {
-    // Método para criar um usuário
     static criarUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -25,14 +28,19 @@ class UsuarioController {
             }
         });
     }
-    // Método para autenticar um usuário
     static autenticarUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { login, senha } = req.body;
-                const autenticado = yield usuarioService_1.UsuarioService.autenticarUsuario(login, senha);
-                if (autenticado) {
-                    res.status(200).json({ message: 'Autenticado com sucesso!' });
+                const usuario = yield usuarioService_1.UsuarioService.autenticarUsuario(login, senha);
+                if (usuario) {
+                    const jwtSecret = process.env.JWT_SECRET;
+                    if (!jwtSecret) {
+                        res.status(500).json({ error: 'JWT_SECRET não está definido no .env' });
+                        return; // Interrompe a execução se a chave não estiver definida
+                    }
+                    const acessToken = jsonwebtoken_1.default.sign({ usuario_id: usuario.usuario_id, usuario_login: usuario.usuario_login }, jwtSecret, { expiresIn: '1h' });
+                    res.status(200).json({ acessToken });
                 }
                 else {
                     res.status(401).json({ error: 'Credenciais inválidas.' });
@@ -43,7 +51,6 @@ class UsuarioController {
             }
         });
     }
-    // Método para listar usuários
     static listarUsuarios(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -55,7 +62,6 @@ class UsuarioController {
             }
         });
     }
-    // Método para buscar um usuário por ID
     static buscarUsuarioPorId(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -73,7 +79,6 @@ class UsuarioController {
             }
         });
     }
-    // Método para atualizar um usuário
     static atualizarUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -92,7 +97,6 @@ class UsuarioController {
             }
         });
     }
-    // Método para deletar um usuário
     static deletarUsuario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
